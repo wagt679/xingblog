@@ -1,0 +1,58 @@
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Signin Template for Bootstrap</title>
+
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+
+    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+        {% include "flash.html" %}
+        <form class="form-signin" method="post" action="/sign_up" name="sign_up">
+            {{ form.hidden_tag() }}
+            <h2 class="form-signin-heading">输入注册信息</h2>
+
+            <label for="inputUserName" class="sr-only">用户名</label>
+            {{ form.nickname(id="inputUserName", class="form-control", placeholder="设定用户名") }}
+
+            <label for="userEmail" class="sr-only">Email</label>
+            {{ form.email(id="userEmail", class="form-control", placeholder="输入邮箱地址") }}
+
+            <label for="inputPassword" class="sr-only">Password</label>
+        {{ form.password(id="inputPassword", class="form-control", placeholder="输入密码") }}
+
+        <label for="reInputPassword" class="sr-only">Password</label>
+        {{ form.re_password(id="reInputPassword", class="form-control", placeholder="再次输入密码") }}
+
+        <div class="checkbox">
+          <label>
+              {{ form.agree(type="checkbox") }}
+            同意注册条款？
+          </label>
+        </div>
+
+        {{ form.submit(class="btn btn-lg btn-primary btn-block") }}
+      </form>
+
+    </div> <!-- /container -->
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

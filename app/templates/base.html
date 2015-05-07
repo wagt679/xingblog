@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="blog">
+    <meta name="author" content="lianyun">
+
+    <title>行博</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/lyblog.css') }}" rel="stylesheet">
+
+    {% block additional_css %}{% endblock %}
+
+  </head>
+
+    <body>
+        {% include "navbar.html" %}
+
+        <div class="container">
+        {% include "flash.html" %}
+
+        {% block content %}{% endblock %}
+
+        {% include "footer.html" %}
+        </div>
+
+        <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+
+        {% block additionaljs %}{% endblock %}
+
+<!-- bootstrap -->
+        <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    </body>
+</html>

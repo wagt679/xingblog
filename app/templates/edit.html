@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="blog-header">
+    <h1>修改你的个人资料</h1>
+    <form action="" method="POST" name="edit">
+        {{ form.hidden_tag() }}
+        <table>
+            <tr>
+                <td>用户名: </td>
+                <td>{{ form.nickname(size = 15) }}</td>
+            </tr>
+            <tr>
+                <td>个人简介：</td>
+                <td>{{ form.about(cols = 60, rows = 6) }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{ form.submit }}</td>
+            </tr>
+        </table>
+    </form>
+</div>
+{% endblock %}

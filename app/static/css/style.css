@@ -1,0 +1,67 @@
+
+html {
+    min-width: 966px;
+    background: #f9f9f9;
+    overflow:scroll;
+    overflow-x:hidden;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: #f9f9f9 url(/ui/holder.gif) top center repeat-y;
+    position: absolute;
+    width: 70%;
+    left: 15%;
+}
+/*
+div#main {
+
+    position: absolute;
+    width: 70%;
+    left: 15%;
+}
+*/
+div#container {
+    backgound-color:#EEEEEE;
+}
+
+/* 设置头元素  */
+div#header {
+    background-color:#99bbbb;
+    font-size: 30px;
+}
+
+div#footer {
+    background-color:#99bbbb;
+    clear:both;
+    text-align:center;
+    line-height: 40px;
+}
+
+div#posttitle {
+    background-color:#EEEEEE;
+    text-align: center;
+}
+
+div#postcontent {
+    text-align: left;
+}
+
+span#nexttag, span#prevtag  {
+    background: #dfffff;
+    border:1px solid blue;
+}
+
+h1 {
+    color: red;
+    font-size: 30px;
+}
+
+#userhead {
+    /* border: 1px solid red; */
+    position: relative;
+    left: 50px;
+    font-size: 25px;
+}

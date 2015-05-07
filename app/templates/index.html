@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="blog-header">
+    <h1 class="blog-title">书写你自己的人生</h1>
+    {% if not current_user.is_authenticated() %}
+    <p class="lead blog-description"> 欢迎来行云博客系统！</h1>
+    {% else %}
+    <p class="lead blog-description">欢迎再次来到行云博客系统，你好:  <em>{{current_user.nickname }}  </em> !</h1>
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-sm-8 blog-main">
+        {% if pagination %}
+        {% include "posts.html" %}
+        <nav>
+            <ul class="pager">
+                {% if pagination.has_prev %}
+                <li class="previous">
+                    <a href="{{ url_for('index',  page=pagination.prev_num) }}"><span aria-hidden="true">&larr;</span>前一页</a>
+                </li>
+                {% endif %}
+                {% if pagination.has_next %}
+                <li class="next">
+                    <a href="{{ url_for('index',  page=pagination.next_num) }}">后一页<span aria-hidden="true">&rarr;</span></a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% else %}
+        <p> 还没有内容 </p>
+        {% endif %}
+    </div>
+
+    {% include "side_bar.html" %}
+</div> <!-- /.row -->
+
+{% endblock %}

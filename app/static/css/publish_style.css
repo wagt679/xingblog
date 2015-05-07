@@ -1,0 +1,10 @@
+
+input#publish_title {
+    font-size: 30px;
+}
+textarea#publish_content {
+    width: 600px;
+    height: 500px;
+    padding: 5px;
+    font-size: 20px;
+}

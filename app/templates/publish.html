@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block additional_css %}
+<!-- mdm style -->
+<link rel="stylesheet" href="{{ url_for('static', filename='mdmagick/assets/mdmagick.css') }}" ></style>
+<link rel="stylesheet" href="{{ url_for('static', filename='mdmagick/assets/icon_font/style.css') }}" />
+<!--[if lte IE 7]><script src="./mdmagick/assets/icon_font/lte-ie7.js"></script><![endif]-->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/publish_style.css') }}" />
+{% endblock %}
+
+{% block content %}
+<div class="blog-header">
+    <form action="{{ url_for('publishs', user_id=current_user.id) }}" method="POST" name="publish">
+        {{ form.hidden_tag() }}
+        <section>
+            <h2>标题： </h2>
+            {{ form.title(id="publish_title") }}
+        </section>
+        <section>
+            <h2>内容</h2>
+            {{form.body(class="mdm-input", id="publish_content") }}
+        </section>
+        <p>{{ form.submit }}</p>
+    </form>
+</div>
+{% endblock %}
+
+{% block additionaljs %}
+<!-- mdm plugin -->
+<script src="{{ url_for('static',filename='mdmagick/vendor/a-tools.js') }}" type="text/javascript" charset="utf-8"></script>
+<script src="{{ url_for('static', filename='mdmagick/vendor/showdown.js') }}" type="text/javascript" charset="utf-8"></script>
+
+<script src="{{ url_for('static', filename='mdmagick/lib/mdmagick.js') }}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}

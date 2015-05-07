@@ -1,0 +1,16 @@
+<div>
+    <!-- 图片输入， 后面需要增加-->
+    <div class="page-header">
+        {% if post.title %}
+        <h3>{{ post.title}}</h3>
+        {% else %}
+        <h3>这人很懒，标题都不写</h3>
+        {% endif %}
+        <p>作者: {{ post.author.nickname }}</p>
+        <p>发表时间：{{ post.timestamp.strftime("%a, %d %b %Y %H:%M:%S")}}
+    </div>
+
+    <div class="well">
+        <p>{{post.body| markdown | safe }}</p>
+    </div>
+</div>
