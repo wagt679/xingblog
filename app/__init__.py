@@ -9,7 +9,7 @@ sys.setdefaultencoding("utf-8")
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
-from flask.ext.misaka import Misaka
+from flask.ext.pagedown import PageDown
 from flask.ext.mail import Mail
 
 # 初始化blog应用，并从config中设定配置
@@ -24,8 +24,8 @@ lm = LoginManager()
 lm.setup_app(blog)
 
 # 设定markdown
-md = Misaka()
-md.init_app(blog)
+pagedown = PageDown()
+pagedown.init_app(blog)
 
 # 使用邮件服务器发送邮件
 mail = Mail()

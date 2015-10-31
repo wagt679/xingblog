@@ -3,7 +3,7 @@
 {% block content %}
 <div class="blog-header">
     <h1 class="blog-title">书写你自己的人生</h1>
-    {% if not current_user.is_authenticated() %}
+    {% if not current_user.is_authenticated %}
     <p class="lead blog-description"> 欢迎来行云博客系统！</h1>
     {% else %}
     <p class="lead blog-description">欢迎再次来到行云博客系统，你好:  <em>{{current_user.nickname }}  </em> !</h1>

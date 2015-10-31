@@ -9,16 +9,22 @@ from flask import (render_template, flash, redirect, session, url_for, request, 
 from flask.ext.login import (login_user, logout_user, current_user, login_required)
 from flask_mail import Message
 
+
+from markdown import markdown
+import bleach
+
+
 from models import User, ROLE_USER, ROLE_ADMIN, Post
 
 from app import blog, db, lm, mail
+
 
 from utils import *
 
 
 @blog.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         return redirect(url_for('index'))
 
     form = LoginForm()
@@ -166,7 +172,8 @@ def publishs(user_id):
             return redirect(url_for("publish", user_id=user_id))
 
         post = Post()
-        post.body = post_body
+        post.body = bleach.linkify(bleach.clean(
+            markdown(post_body, out_format='html'), strip = True))
         post.title = post_title
         post.timestamp = datetime.datetime.now()
         post.user_id = user_id
