@@ -1,79 +1,81 @@
-<!DOCTYPE html>
-<!-- Bootstrap the angular app after the Google Java Script libraries are loaded. -->
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends "base.html" %}
 
-    <title>Conference Central</title>
+{% block title %}Main Page - Xing{% endblock %}
 
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <!-- {{ url_for('static', filename='bootstrap/css/bootstrap-cosmo.css') }} -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap//css//bootstrap-cosmo.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap//css//main.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap//css//offcanvas.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='img//favicon.ico') }}" type="image/x-icon">
-    <meta property="og:title" content="Conference Central">
-    <meta property="og:type" content="website">
-    <meta property="og:description" content="Conference Central web app that lets you manage conferences.">
-    <meta property="og:image" content="{{ url_for('static', filename='img//CloudPlatform_logo.png') }}">
-    <meta property="og:site_name" content="An web app powered by Google App Engine">
-
-    <script src="//libs.useso.com/js/angular.js/1.2.16/angular.js"></script>
-    <script src="//libs.useso.com/js/angular.js/1.2.16/angular-route.js"></script>
-</head>
-
-<!-- Restore the credential from cookie if stored by calling initSignInButton() -->
-<body ng-controller="RootCtrl" ng-init="initSignInButton()">
-
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Conference Central</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li ng-class="{ active: isActive('/conference')}" ng-click="collapseNavbar()"><a href="#/conference">Show Conferences</a></li>
-                <li ng-class="{ active: isActive('/conference/create')}" ng-click="collapseNavbar()"><a href="#/conference/create" >Create Conferences</a></li>
-                <li ng-class="{ active: isActive('/profile')}" ng-click="collapseNavbar()"><a href="#/profile">My Profile</a></li>
-                <li class="nav-divider"></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li id="signInLink" ng-hide="getSignedInState()"><a ng-click="signIn(); collapseNavbar()">Google+ SignIn</a></li>
-                <li id="signOutLink" ng-show="getSignedInState()"><a ng-click="signOut(); collapseNavbar()">Log out</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-
+{% block page_content %}
+{{ super() }}
 <div class="container">
+  <!-- Example row of columns -->
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Descriptions</h2>
+      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2>How To Use</h2>
+      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2>Others</h2>
+      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+      <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+    </div>
+  </div>
+<ng-view class="ng-scope">
+<div class="section-a ng-scope">
     <div class="row">
-        <div class="col-lg-12">
-            <div id="rootMessages" class="alert alert-{{alertStatus}}" ng-show="rootMessages">
-                <span ng-bind="rootMessages"></span>
-                <i class="dismiss-messages pull-right glyphicon glyphicon-remove" ng-click="rootMessages = ''"
-                   ng-show="rootMessages"></i>
-            </div>
+        <div class="col-lg-5 col-sm-6">
+            <hr>
+            <div class="clearfix"></div>
+            <h2>View conferences</h2>
+
+            <p class="lead">View by city, topics, date, max attendees.</p>
+            <a href="/show_conf" class="btn btn-default btn-lg">View conferences</a>
+        </div>
+        <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+            <img class="img-responsive" src="{{ url_for('static', filename="img/business1.jpg") }}" alt="">
         </div>
     </div>
-    <ng-view></ng-view>
 </div>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.js"></script>
-<script src="//ajax.useso.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<script src="/js/app.js"></script>
-<script src="/js/controllers.js"></script>
+<div class="section-a ng-scope">
+    <div class="row">
+        <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+            <hr class="section-heading-spacer">
+            <div class="clearfix"></div>
+            <h2 class="section-heading">Create new conferences</h2>
 
-<!-- Put the signInButton to invoke the gapi.signin.render to restore the credential if stored in cookie. -->
-<span id="signInButton" style="display: none" disabled="true"></span>
+            <p class="lead">In 10 seconds or less.</p>
+            <a href="/create_conf" class="btn btn-default btn-lg">Create a conference</a>
+        </div>
+        <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+            <img class="img-responsive" src="{{ url_for('static', filename="img/business2.jpg") }}" alt="">
+        </div>
+    </div>
+</div>
 
-</body>
-</html>
+<div class="section-a ng-scope">
+    <div class="row">
+        <div class="col-lg-5 col-sm-6">
+            <hr>
+            <div class="clearfix"></div>
+            <h2 class="section-heading">Update your profile</h2>
+            <a href="/profile" class="btn btn-default btn-lg">View my profile</a>
+        </div>
+        <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+            <img class="img-responsive" src="{{ url_for('static', filename="img/business3.jpg") }}" alt="">
+        </div>
+    </div>
+</div>
+</ng-view>
+  <hr>
+{% endblock %}
+
+{% block footer %}
+  <footer>
+    <p>&copy; Write By <a href="http://movecloud.me/">Move Cloud</a></p>
+  </footer>
+</div> <!-- /container -->
+{% endblock %}
