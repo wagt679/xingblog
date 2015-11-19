@@ -32,3 +32,10 @@ def create_conf():
 @main.route("/profile")
 def profile():
     return "<h1>hell world</h1>"
+
+@main.route("/login", methods=['GET', 'POST'])
+def login():
+    form = Login()
+    if form.validate_on_submit():
+        return redirect(url_for(".index"))
+    return render_template("login.html", form=form)

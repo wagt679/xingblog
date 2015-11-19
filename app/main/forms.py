@@ -13,4 +13,10 @@ class NavLogin(Form):
 
 class Conference(Form):
     name = StringField("Conference Name", validators = [DataRequired()])
-    city = SelectField()
+#    city = SelectField()
+
+
+class Login(Form):
+    email = StringField("Email address", validators = [DataRequired(), Email()])
+    passwd = PasswordField("Password", validators = [DataRequired()])
+    submit = SubmitField("Sign in")
