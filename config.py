@@ -1,9 +1,11 @@
 """
 Flask app config package.
-Configration of movecloud.me 's conference
+Configration of xing conference
 """
 
 import os
+import random
+import string
 
 __author__ = "movecloud.me"
 
@@ -14,7 +16,10 @@ class Config:
     Basic configration of app.
     """
     SECRET_KEY = os.environ.get("SECRET_KEY") or \
-        "hard to guess string oidadsaanfdeefd rf ecmemxxrmercrexqwei"
+        "".join(random.choice(string.letters) for x in xrange(100))
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    SQLALCHEMY_RECORD_QUERIES = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     @staticmethod
     def init_app(app):

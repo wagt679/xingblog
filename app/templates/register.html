@@ -1,0 +1,25 @@
+
+{% extends "base.html" %}
+
+{% block title %}Register Page - Xing{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link href="{{ url_for("static", filename="config/signin.css") }}" rel="stylesheet">
+{% endblock %}
+
+{% block page_content %}
+{{ super() }}
+<div class="container">
+    <form class="form-signin" method="POST">
+        {{ form.hidden_tag() }}
+        <h2 class="form-signin-heading">Please Register</h2>
+        {{ form.email(type="email", id="inputEmail", class="form-control", placeholder="Email") }}
+        {{ form.nickname(type="text", id="inputEmail", class="form-control", placeholder="Nick Name") }}
+        {{ form.passwd(type="password", id="inputPassword", class="form-control", placeholder="New Pass Word") }}
+        {{ form.confirm(type="password", id="inputPassword", class="form-control", placeholder="Repeat Pass Word") }}
+        {{ form.submit(class="btn btn-lg btn-primary btn-block", type="submit") }}
+    </form>
+</div>
+
+{% endblock %}

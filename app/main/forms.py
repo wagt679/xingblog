@@ -1,15 +1,10 @@
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, SubmitField, SelectField
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired, Email, EqualTo
 
 
 __author__ = "movecloud.me"
 
-
-class NavLogin(Form):
-    email = StringField("Email", validators = [DataRequired(), Email()])
-    passwd = PasswordField("Password", validators = [DataRequired()])
-    submit = SubmitField("Sign In")
 
 class Conference(Form):
     name = StringField("Conference Name", validators = [DataRequired()])
@@ -17,6 +12,13 @@ class Conference(Form):
 
 
 class Login(Form):
-    email = StringField("Email address", validators = [DataRequired(), Email()])
-    passwd = PasswordField("Password", validators = [DataRequired()])
-    submit = SubmitField("Sign in")
+    email = StringField("Email Address", validators = [DataRequired(), Email()])
+    passwd = PasswordField("Pass Word", validators = [DataRequired()])
+    submit = SubmitField("Sign In")
+
+class Register(Form):
+    email = StringField("Email Address", validators = [DataRequired(), Email()])
+    nickname = StringField("Nick Name", validators = [DataRequired()])
+    passwd = PasswordField('New Password', validators = [DataRequired(), EqualTo('confirm', message='Passwords must match')])
+    confirm  = PasswordField('Repeat Password',  validators = [DataRequired()])
+    submit = SubmitField("Register")
