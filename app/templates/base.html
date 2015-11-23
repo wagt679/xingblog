@@ -37,10 +37,13 @@
       <ul class="nav navbar-nav">
         <li><a href="{{ url_for('main.show_conf') }}">Show Conference</a></li>
       </ul>
-
       <ul class="nav navbar-nav navbar-right">
+        {% if not current_user.is_authenticated %}
         <li><a href="{{ url_for('auth.login') }}">Login</a></li>
         <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+        {% else %}
+        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        {% endif %}
       </ul>
     </div>
   </div>

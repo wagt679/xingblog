@@ -21,6 +21,14 @@ class Config:
     SQLALCHEMY_RECORD_QUERIES = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
+    MAIL_SERVER = 'smtp.126.com'
+    MAIL_PORT = 994
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = "lianyun08"        # os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = "movecloud1234"
+    FLASKY_MAIL_SUBJECT_PREFIX = '[Xing]'
+    FLASKY_MAIL_SENDER = 'Xing Admin <lianyun08@126.com>'
+
     @staticmethod
     def init_app(app):
         pass

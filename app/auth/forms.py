@@ -1,7 +1,10 @@
 
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms import ValidationError
+from wtforms.validators import DataRequired, Email, EqualTo, Length
+from ..models import User
+from .. import db
 
 __author__ = "movecloud.me"
 
@@ -17,3 +20,11 @@ class Register(Form):
     passwd = PasswordField('New Password', validators = [DataRequired(), EqualTo('confirm', message='Passwords must match')])
     confirm  = PasswordField('Repeat Password',  validators = [DataRequired()])
     submit = SubmitField("Register")
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError("Email already in using!")
+
+    def validate_nickname(self, field):
+        if User.query.filter_by(nickname=field.data).first():
+            raise ValidationError("Nickname already in using!")
