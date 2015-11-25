@@ -1,14 +1,12 @@
 # _*_ coding: utf-8 _*_
 
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask.ext.login import UserMixin
+from flask.ext.login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
+from datetime import datetime
 
-
-from . import login_manager
-
-from . import db
+from . import db, login_manager
 
 class Permission:
     """
@@ -32,10 +30,26 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
+    conferences = db.relationship("Conference", backref="sponsor", lazy='dynamic')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
-        if self.role is 
+        if self.role is None:
+            if self.email == current_app.config["XING_ADMIN"]:
+                self.role = Role.query.filter_by(permissions = 0xff).first()
+            else:
+                self.role = Role.query.filter_by(default=True).first()
+
+    def can(self, permission):
+        """
+        Verify this user's role.
+        If this user has permission required, return true, vise vese.
+        """
+        return (self.role is not None) and \
+            ((self.role.permissions & permission) == permission)
+
+    def is_administrator(self):
+        return self.can(Permission.ADMINISTER)
 
     @property
     def passwd(self):
@@ -67,6 +81,15 @@ class User(UserMixin, db.Model):
 
     def __str__(self):
         return "<User %s>" % self.nickname
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+
+    def is_administrator(self):
+        return True
+
+login_manager.anonymous_user = AnonymousUser
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -101,6 +124,22 @@ class Role(db.Model):
         return self.name
 
     __repr__ = __str__
+
+
+class Conference(db.Model):
+    __tablename__ = "conferences"
+    id = db.Column(db.Integer, primary_key=True)
+    sponsor_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    name = db.Column(db.String(128), index=True, nullable=False)
+    city = db.Column(db.String(128))
+    description = db.Column(db.Text)
+    start_time = db.Column(db.DateTime)
+    end_time = db.Column(db.DateTime)
+    max_attendees = db.Column(db.Integer)
+    time_stamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __str__(self):
+        return "<Conference %s>" % name
 
 
 @login_manager.user_loader

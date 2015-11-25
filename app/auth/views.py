@@ -18,7 +18,9 @@ def login():
         u = User.query.filter_by(email=form.email.data).first()
         if u and u.verify_passwd(form.passwd.data):
             login_user(u, form.remember_me.data)
-            return redirect(request.args.get("next") or url_for("main.index"))
+            flash("Logged in successfully.")
+            next_url = request.args.get("next")
+            return redirect(next_url or url_for("main.index"))
         flash("Invalid username or password.")
     return render_template("auth/login.html", form=form)
 

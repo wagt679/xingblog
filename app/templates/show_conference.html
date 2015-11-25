@@ -1,0 +1,11 @@
+{% extends "base.html"%}
+
+{% block title %}Show Conference - Xing{% endblock %}
+
+{% block page_content %}
+{{ super() }}
+<div class="container">
+    {% import "bootstrap/wtf.html" as wtf %}
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
