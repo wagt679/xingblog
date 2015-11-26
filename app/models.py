@@ -121,17 +121,68 @@ class Role(db.Model):
             db.session.add(role)
         db.session.commit()
     def __str__(self):
-        return self.name
+        return "<Role %s>" % self.name
 
     __repr__ = __str__
 
+class City(db.Model):
+    __tablename__ = "cities"
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.String(128), unique=True, index=True)
+    name = db.Column(db.String(128), unique=True)
+    conferences = db.relationship("Conference", backref="city", lazy="dynamic")
+    
+    @staticmethod
+    def insert_cities():
+        cities = {
+            "xi_an": "Xi An",
+            "bei_jing": "Bei Jing",
+            "shang_hai": "Shang Har"
+        }
+        for (value, name) in cities.items():
+            city = City.query.filter_by(value=value).first()
+            if city is None:
+                city = City(value=value, name=name)
+                db.session.add(city)
+        db.session.commit()
+    
+    def __str__(self):
+        return "<City %s>" % self.name
+            
+    
+class Topic(db.Model):
+    __tablename__ = "topics"
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.String(128), unique=True, index=True)
+    name = db.Column(db.String(128), unique=True)
+    conferences = db.relationship("Conference", backref="topics", lazy="dynamic")
+    
+    @staticmethod
+    def insert_topics():
+        topics = {
+            "programming": "Programming",
+            "web": "Web",
+            "movie": "Movie",
+            "health": "Health"
+        }
+        for (value, name) in topics.items():
+            topic = Topic.query.filter_by(value=value).first()
+            if topic is None:
+                topic = Topic(value=value, name=name)
+                db.session.add(topic)
+        db.session.commit()
+    
+    def __str__(self):
+        return "<Topic %s>" % self.name
+    
 
 class Conference(db.Model):
     __tablename__ = "conferences"
     id = db.Column(db.Integer, primary_key=True)
     sponsor_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     name = db.Column(db.String(128), index=True, nullable=False)
-    city = db.Column(db.String(128))
+    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
+    topic_ids = db.Column(db.Integer, db.ForeignKey("topics.id"))
     description = db.Column(db.Text)
     start_time = db.Column(db.DateTime)
     end_time = db.Column(db.DateTime)

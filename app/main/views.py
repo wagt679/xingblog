@@ -3,7 +3,8 @@
 from . import main
 from forms import *
 from flask import render_template, url_for, redirect, flash, session
-from flask.ext.login import login_required
+from flask.ext.login import login_required, current_user
+
 
 from ..models import User
 from .. import db
@@ -21,6 +22,7 @@ def index():
 def show_conf():
     form = Conference()
     if form.validate_on_submit():
+        
         s1 = form.city.data     # the value "1"
         s2 = form.topics.data   # the value list = [u"1", u"2"]
         flash("date: {0}, {1}".format(s1 , s2))
