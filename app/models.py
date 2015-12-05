@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
-    conferences = db.relationship("Conference", backref="sponsor", lazy='dynamic')
+    conferences = db.relationship("Conference", backref="organizer", lazy='dynamic')
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -155,7 +155,6 @@ class Topic(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.String(128), unique=True, index=True)
     name = db.Column(db.String(128), unique=True)
-    conferences = db.relationship("Conference", backref="topics", lazy="dynamic")
     
     @staticmethod
     def insert_topics():
@@ -174,15 +173,19 @@ class Topic(db.Model):
     
     def __str__(self):
         return "<Topic %s>" % self.name
-    
+
+
+add_topics = db.Table('add_topics', \
+                        db.Column("conference_id", db.Integer, db.ForeignKey("conferences.id")),
+                        db.Column("topic_id", db.Integer, db.ForeignKey("topics.id")))
 
 class Conference(db.Model):
     __tablename__ = "conferences"
     id = db.Column(db.Integer, primary_key=True)
-    sponsor_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    name = db.Column(db.String(128), index=True, nullable=False)
+    organizer_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    title = db.Column(db.String(128), index=True, nullable=False)
     city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
-    topic_ids = db.Column(db.Integer, db.ForeignKey("topics.id"))
+    topics = db.relationship("Topic", secondary=add_topics, backref=db.backref("conferences", lazy="dynamic"), lazy="dynamic")
     description = db.Column(db.Text)
     start_time = db.Column(db.DateTime)
     end_time = db.Column(db.DateTime)
@@ -190,7 +193,7 @@ class Conference(db.Model):
     time_stamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __str__(self):
-        return "<Conference %s>" % name
+        return "<Conference %s>" % self.title
 
 
 @login_manager.user_loader

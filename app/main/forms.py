@@ -9,11 +9,11 @@ __author__ = "movecloud.me"
 
 
 class Conference(Form):
-    name = StringField("Conference Name", validators = [DataRequired()])
+    title = StringField("Conference Tilte", validators = [DataRequired()])
     city = SelectField("City", choices=[("1","AA"), ("2", "BB")])
     description = TextAreaField("Conference description")
     topics = SelectMultipleField("Topics", choices = [("1", "DD"), ("2", "EE"), ("3", "VV")])
-    start_time = DateTimeField("Start Time (%Y-%m-%d %H:%M:%S)", format="%Y-%m-%d %H:%M:%S", default=datetime.now())
-    end_time = DateTimeField("End Time (%Y-%m-%d %H:%M:%S)", format="%Y-%m-%d %H:%M:%S", default=datetime.now())
+    start_time = DateTimeField("Start Time (%Y-%m-%d %H:%M:%S)", format="%Y-%m-%d %H:%M:%S", default=datetime.utcnow())
+    end_time = DateTimeField("End Time (%Y-%m-%d %H:%M:%S)", format="%Y-%m-%d %H:%M:%S", default=datetime.utcnow())
     max_attendees = IntegerField("Max Attendees", default=0)
     submit = SubmitField("Publish")
