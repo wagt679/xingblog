@@ -20,7 +20,7 @@ def index():
 
 @main.route("/show_conference", methods=['GET', 'POST'])
 def show_conference():
-    conferences = Conference.query.all()
+    conferences = Conference.query.order_by(Conference.time_stamp.desc()).all()
     return render_template('show_conference.html', conferences=conferences)
 
 @main.route("/create_conference", methods=["GET", "POST"])
@@ -67,6 +67,11 @@ def create_conference():
     form.topics.choices = allowable_topics
     
     return render_template('create_conference.html', form=form)
+
+@main.route("/conference/<int:id>", methods=["GET", "POST"])
+def conference(id):
+    conference = Conference.query.filter_by(id=id).first()
+    return render_template("conference_context.html", conference=conference)
 
 @main.route("/profile")
 def profile():

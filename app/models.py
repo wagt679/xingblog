@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
-from datetime import datetime
+import datetime
 
 from . import db, login_manager
 
@@ -78,9 +78,33 @@ class User(UserMixin, db.Model):
             db.session.add(self)
             return True
         return False
+    
+    @staticmethod
+    def generate_fake(count=100):
+        from sqlalchemy.exc import IntegrityError
+        from random import seed
+        
+        import forgery_py
+        seed()
+        for i in xrange(count):
+            u = User(
+                email = forgery_py.internet.email_address(),
+                nickname = forgery_py.internet.user_name(True),
+                passwd = forgery_py.lorem_ipsum.word(),
+                confirmed = True
+            )
+            db.session.add(u)
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
+                
 
     def __str__(self):
         return "<User %s>" % self.nickname
+    
+        
+    __repr__ = __str__
 
 class AnonymousUser(AnonymousUserMixin):
     def can(self, permissions):
@@ -137,7 +161,7 @@ class City(db.Model):
         cities = {
             "xi_an": "Xi An",
             "bei_jing": "Bei Jing",
-            "shang_hai": "Shang Har"
+            "shang_hai": "Shang Hai"
         }
         for (value, name) in cities.items():
             city = City.query.filter_by(value=value).first()
@@ -148,6 +172,9 @@ class City(db.Model):
     
     def __str__(self):
         return "<City %s>" % self.name
+    
+        
+    __repr__ = __str__
             
     
 class Topic(db.Model):
@@ -173,6 +200,8 @@ class Topic(db.Model):
     
     def __str__(self):
         return "<Topic %s>" % self.name
+        
+    __repr__ = __str__
 
 
 add_topics = db.Table('add_topics', \
@@ -190,10 +219,60 @@ class Conference(db.Model):
     start_time = db.Column(db.DateTime)
     end_time = db.Column(db.DateTime)
     max_attendees = db.Column(db.Integer)
-    time_stamp = db.Column(db.DateTime, default=datetime.utcnow)
+    time_stamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    attendees = db.Column(db.Integer)
 
     def __str__(self):
         return "<Conference %s>" % self.title
+    
+    __repr__ = __str__
+    
+    @staticmethod
+    def generate_fake(count=100):
+        from random import seed, randint
+        import forgery_py
+        
+        seed()
+        user_count = User.query.count()
+        city_count = City.query.count()
+        topic_count = Topic.query.count()
+        delta_time = datetime.timedelta(days=1)
+        
+        for i in range(count):
+            u = User.query.offset(randint(0, user_count - 1)).first()
+            c = City.query.offset(randint(0, city_count - 1)).first()
+            t = forgery_py.lorem_ipsum.sentence()
+            tps = []
+            for ii in xrange(randint(0, 5)):
+                tps.append(Topic.query.offset(randint(0, topic_count-1)).first())
+            stime = forgery_py.date.date(True)
+            etime = stime + delta_time
+            des = forgery_py.lorem_ipsum.sentences(randint(1, 3))
+            max_attendees = randint(5, 25)
+            attendees = max_attendees - randint(0, max_attendees)
+            time_stamp = forgery_py.date.date(True)
+            
+            conference = Conference(
+                organizer = u,
+                city = c,
+                title = t,
+                description = des,
+                start_time = stime,
+                end_time = etime,
+                max_attendees = max_attendees,
+                attendees = attendees,
+                time_stamp = time_stamp
+            )
+            
+            for t in tps:
+                conference.topics.append(t)
+            db.session.add(conference)
+        
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            
 
 
 @login_manager.user_loader

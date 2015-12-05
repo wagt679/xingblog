@@ -1,30 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Conference Detail - Xing{% endblock %}
+
+{% block page_content %}
+{{ super() }}
+<div class="container">
+
 <div>
-	<ul>
-		{% for conference in conferences %}
-		<li>
-			<h3>{{ conference.title }}</h3>
-			<p> 
-				<span><span>Organizer by: </span>
-					<em>{{ conference.organizer.nickname }}</em> 
-				</span>
-				<br />
-				<span><span>Topics: </span>
-					{% for topic in conference.topics %}
-					<span> {{ topic.name }} </span>
-					{% endfor %} 
-				</span>
-				<br />
-				<span><span>City: </span>
-					<em>{{ conference.city.name }}</em> 
-				</span>
-				<br />
-				<span><span>Start time: </span>
-					<em>{{ conference.start_time }}</em> 
-				</span>
-				<br />
-			</p>
-		</li>
-		{% endfor %}
-	</ul>
+	<div class="page-header">
+		<h3>{{ conference.title }}</h3>
+	</div>
+	<p> 
+		<span><span>Organizer by: </span>
+			<em>{{ conference.organizer.nickname }}</em> 
+		</span>
+		<br />
+		<span><span>Topics: </span>
+			{% for topic in conference.topics %}
+			<span> {{ topic.name }} </span>
+			{% endfor %} 
+		</span>
+		<br />
+		<span><span>City: </span>
+			<em>{{ conference.city.name }}</em> 
+		</span>
+		<br />
+		<span><span>Start time: </span>
+			<em>{{ conference.start_time }}</em> 
+		</span>
+		<br />
+	</p>
 </div>
-			
+{% endblock %}		

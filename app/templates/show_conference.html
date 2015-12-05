@@ -4,33 +4,30 @@
 
 {% block page_content %}
 {{ super() }}
-<div>
-	<ul>
-		{% for conference in conferences %}
-		<li>
-			<h3>{{ conference.title }}</h3>
-			<p> 
-				<span><span>Organizer by: </span>
-					<em>{{ conference.organizer.nickname }}</em> 
-				</span>
-				<br />
-				<span><span>Topics: </span>
-					{% for topic in conference.topics %}
-					<span> {{ topic.name }} </span>
-					{% endfor %} 
-				</span>
-				<br />
-				<span><span>City: </span>
-					<em>{{ conference.city.name }}</em> 
-				</span>
-				<br />
-				<span><span>Start time: </span>
-					<em>{{ conference.start_time }}</em> 
-				</span>
-				<br />
-			</p>
-		</li>
-		{% endfor %}
-	</ul>
+<div class="container">
+	<div class="table-responsive" ng-show="conferences.length > 0">
+		<table id="conference-table" class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>City</th>
+					<th>Start Date</th>
+					<th>Organizer</th>
+					<th>Registered/Open</th>
+				</tr>
+			</thread>
+			<tbody>	
+				{% for conference in conferences %}
+				<tr>
+					<td><a href="{{ url_for('main.conference', id=conference.id) }}">{{conference.title}}</a></td>
+					<td>{{ conference.city.name }}</td>
+					<td>{{ conference.start_time }}</td>
+					<td>{{ conference.organizer.nickname }}</td>
+					<td>{{ conference.max_attendees }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 </div>
 {% endblock %}
