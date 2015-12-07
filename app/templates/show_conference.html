@@ -1,10 +1,15 @@
-{% extends "base.html"%}
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
 
 {% block title %}Show Conference - Xing{% endblock %}
 
 {% block page_content %}
 {{ super() }}
 <div class="container">
+	<div class="pagination">
+		{{ macros.pagination_widget(pagination, "main.show_conference")}}
+	</div>
 	<div class="table-responsive" ng-show="conferences.length > 0">
 		<table id="conference-table" class="table table-striped table-hover">
 			<thead>
@@ -23,11 +28,15 @@
 					<td>{{ conference.city.name }}</td>
 					<td>{{ conference.start_time }}</td>
 					<td>{{ conference.organizer.nickname }}</td>
-					<td>{{ conference.max_attendees }}</td>
+					<td>{{ conference.attendees }} / {{ conference.max_attendees }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>
 		</table>
+	</div>
+	
+	<div class="pagination">
+		{{ macros.pagination_widget(pagination, "main.show_conference")}}
 	</div>
 </div>
 {% endblock %}

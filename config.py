@@ -27,9 +27,12 @@ class Config:
     MAIL_USE_SSL = True
     MAIL_USERNAME = "lianyun08"        # os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = "movecloud1234"
+    
     XING_MAIL_SUBJECT_PREFIX = "[Xing]"
     XING_MAIL_SENDER = "Xing Admin <lianyun08@126.com>"
     XING_ADMIN = "lianyun08@126.com"
+    
+    FLASKY_POSTS_PER_PAGE = 20
 
     @staticmethod
     def init_app(app):

@@ -3,7 +3,7 @@ from datetime import datetime
 
 from forms import *
 import forms
-from flask import render_template, url_for, redirect, flash, session
+from flask import render_template, url_for, redirect, flash, session, request, current_app
 from flask.ext.login import login_required, current_user
 
 from . import main
@@ -20,8 +20,11 @@ def index():
 
 @main.route("/show_conference", methods=['GET', 'POST'])
 def show_conference():
-    conferences = Conference.query.order_by(Conference.time_stamp.desc()).all()
-    return render_template('show_conference.html', conferences=conferences)
+    page = request.args.get("page", 1, type=int)
+    pagination = Conference.query.order_by(Conference.time_stamp.desc()) \
+                    .paginate(page, per_page=current_app.config["FLASKY_POSTS_PER_PAGE"], error_out=False)
+    conferences = pagination.items
+    return render_template('show_conference.html', conferences=conferences, pagination=pagination)
 
 @main.route("/create_conference", methods=["GET", "POST"])
 def create_conference():
